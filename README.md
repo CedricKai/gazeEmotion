@@ -30,11 +30,8 @@
 
 本项目提供以下演示视频，展示了系统的实际运行效果：
 
-**原始视频（输入）：**
-> https://player.bilibili.com/player.html?bvid=BV1icQQBNEwn&page=1
-
-**处理效果（输出）：**
-> https://player.bilibili.com/player.html?bvid=BV1vcQQBNEZ6&page=1
+- [原始视频 demo.mp4](readme_src/demo.mp4)
+- [处理效果 demo_show.mp4](readme_src/demo_show.mp4)
 
 > **立即尝试🎉**：点击以下链接下载程序包，下载完成后在本地解压运行即可体验本系统：[**点击下载程序包 →**](https://drive.google.com/uc?export=download&id=1sH3AfQdfjfLpvcWitlilsO-D0xrYBQbh)
 
