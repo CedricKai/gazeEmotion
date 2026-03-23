@@ -17,3 +17,5 @@ results\video\face3.txt    [287 151], [452 357]    Neutral Angry
 results\video\face3.txt    [187  80], [298 221]    Neutral Happy
 results\video\face3.txt    [525  97], [623 216]    Happy Neutral
 results\video\face3.txt    [549  94], [644 207]    Happy Angry
+results\video\face4.txt    [652  81], [746 204]    Happy Sad
+results\video\face4.txt    [281  87], [400 227]    Happy Neutral
