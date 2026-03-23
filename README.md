@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/faceinsight.svg" alt="FaceInsight Banner" width="60%"/>
+<img src="assets/gaze_emotion.svg" alt="Gaze Emotion" width="60%"/>
 
-# 🎯 FaceInsight — 视频情绪检测与视线头部分析系统
+# 🎯 Gaze Emotion — 视频情绪检测与视线头部分析系统
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.10%2B-EE4C2C?logo=pytorch)](https://pytorch.org/)
@@ -37,7 +37,7 @@
 
 ## 项目简介
 
-**FaceInsight** 是一套面向视频场景的人脸行为感知系统，融合了人脸检测、面部关键点定位、头部姿态估计、视线方向估计与情绪识别等多项深度学习能力，能够对视频中的目标人物状态进行实时、全面的分析。
+**GazeEmotion** 是一套面向视频场景的人脸行为感知系统，融合了人脸检测、面部关键点定位、头部姿态估计、视线方向估计与情绪识别等多项深度学习能力，能够对视频中的目标人物状态进行实时、全面的分析。
 
 系统支持两种工作模式：
 - 🎞️ **离线视频检测**：批量处理本地视频文件，自动输出结果
@@ -199,23 +199,60 @@ python run.py --camera 0
 ## 项目结构
 
 ```
-faceinsight/
-├── input/                  # 输入视频目录
-├── results/                # 输出结果目录
-├── weights/                # 预训练模型权重
-├── configs/                # 配置文件
-├── modules/
-│   ├── face_detector.py    # 人脸检测模块
-│   ├── landmark.py         # 关键点提取模块
-│   ├── head_pose.py        # 头部姿态估计模块
-│   ├── gaze_estimator.py   # 视线方向估计模块
-│   └── emotion.py          # 情绪识别模块
-├── utils/
-│   ├── visualizer.py       # 可视化工具
-│   └── io.py               # 输入输出工具
-├── run.py                  # 主程序入口
-├── requirements.txt        # 依赖列表
-└── README.md
+gazeEmotion/                                  # 项目根目录
+├─ .gitignore                                 # Git 忽略规则
+├─ README.md                                  # 当前项目说明文档
+├─ readme_old.md                              # 旧版 README 备份
+├─ requirements.txt                           # Python 依赖列表
+├─ run.py                                     # 主入口脚本（启动离线/实时检测）
+├─ assets/                                    # 演示与文档素材
+│  ├─ demo.mp4                                # 示例原始视频
+│  └─ gaze_emotion.svg                         # 项目相关示意图标
+├─ data/                                      # 配置与相机参数数据
+│  ├─ calib/                                  # 相机标定参数
+│  │  └─ sample_params.yaml                   # 示例相机参数文件
+│  ├─ configs/                                # 不同 gaze 模式配置
+│  │  ├─ eth-xgaze.yaml                       # ETH-XGaze 配置
+│  │  ├─ mpiifacegaze.yaml                    # MPIIFaceGaze 配置
+│  │  └─ mpiigaze.yaml                        # MPIIGaze 配置
+│  └─ normalized_camera_params/               # 归一化相机参数
+│     ├─ eth-xgaze.yaml                       # ETH-XGaze 归一化参数
+│     ├─ mpiifacegaze.yaml                    # MPIIFaceGaze 归一化参数
+│     └─ mpiigaze.yaml                        # MPIIGaze 归一化参数
+├─ models/                                    # 模型定义代码
+│  ├─ __init__.py                             # 模型包初始化
+│  ├─ vgg.py                                  # VGG 情绪识别模型定义
+│  └─ __pycache__/                            # Python 编译缓存（可忽略）
+├─ readme_src/                                # README 展示资源
+│  ├─ demo.mp4                                # README 用原始演示视频
+│  └─ demo_show.mp4                           # README 用处理后演示视频
+├─ results/                                   # 推理输出目录
+│  ├─ camera/                                 # 摄像头实时模式输出
+│  └─ video/                                  # 离线视频模式输出
+├─ src/                                       # 核心业务代码
+│  ├─ __init__.py                             # src 包初始化
+│  ├─ creat_tf.py                             # 数据预处理/transform 构建
+│  ├─ demo.py                                 # 推理流程与可视化主逻辑
+│  ├─ gaze_estimator.py                       # 视线估计与情绪识别核心
+│  ├─ utils.py                                # 工具函数（下载/路径/参数等）
+│  ├─ head_pose_estimation/                   # 头姿估计子模块
+│  │  ├─ __init__.py                          # 子模块初始化
+│  │  ├─ face_landmark_estimator.py           # 人脸关键点估计
+│  │  ├─ head_pose_normalizer.py              # 头姿归一化处理
+│  │  └─ __pycache__/                         # Python 编译缓存（可忽略）
+│  └─ __pycache__/                            # Python 编译缓存（可忽略）
+├─ weights/                                   # 本地模型权重
+│  └─ PrivateTest_model.t7                    # 情绪识别模型权重
+└─ .idea/                                     # PyCharm 工程配置（IDE 文件）
+   ├─ .gitignore                              # IDE 目录的忽略规则
+   ├─ gazeEmotion.iml                         # PyCharm 模块配置
+   ├─ misc.xml                                # PyCharm 基础配置
+   ├─ modules.xml                             # PyCharm 模块列表
+   ├─ vcs.xml                                 # 版本控制配置
+   ├─ workspace.xml                           # 本地工作区配置（个人）
+   └─ inspectionProfiles/                     # 代码检查配置
+      ├─ profiles_settings.xml                # 检查配置设置
+      └─ Project_Default.xml                  # 默认检查规则
 ```
 
 ---
@@ -254,8 +291,3 @@ faceinsight/
 
 本项目基于 [MIT License](LICENSE) 开源发布。
 
----
-
-<div align="center">
-如有问题或建议，欢迎提交 <a href="https://github.com/your-username/faceinsight/issues">Issue</a> 或 PR 🙌
-</div>
