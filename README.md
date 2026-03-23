@@ -1,218 +1,293 @@
-# 视频情绪检测与视线与头部分析系统
+<div align="center">
+
+<img src="assets/gaze_emotion.svg" alt="Gaze Emotion" width="60%"/>
+
+# 🎯 Gaze Emotion — 视频情绪检测与视线头部分析系统
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.10%2B-EE4C2C?logo=pytorch)](https://pytorch.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green?logo=opencv)](https://opencv.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+**基于计算机视觉与深度学习的视频人脸行为综合分析系统**  
+支持情绪识别 · 视线估计 · 头部姿态分析 · 离线视频 / 实时摄像头
+
+[📦 下载程序包](https://drive.google.com/uc?export=download&id=1sH3AfQdfjfLpvcWitlilsO-D0xrYBQbh) · [📄 文档](#使用说明) · [🎬 效果演示](#效果演示)
+
+</div>
+
+---
+
+## 📌 目录
+
+- [项目简介](#项目简介)
+- [效果演示](#效果演示)
+- [功能特性](#功能特性)
+- [环境要求](#环境要求)
+- [快速开始](#快速开始)
+- [模型下载](#模型下载)
+- [使用说明](#使用说明)
+- [参数说明](#参数说明)
+- [项目结构](#项目结构)
+- [应用场景](#应用场景)
+- [项目说明](#项目说明)
+- [扩展计划](#扩展计划)
+
+---
 
 ## 项目简介
-本项目是一套基于计算机视觉与深度学习的视频分析系统，支持对视频中的人员进行情绪识别、视线估计和头部姿态分析。
 
-系统支持两种检测方式：
-- 离线视频检测
-- 摄像头实时检测
+**GazeEmotion** 是一套面向视频场景的人脸行为感知系统，融合了人脸检测、面部关键点定位、头部姿态估计、视线方向估计与情绪识别等多项深度学习能力，能够对视频中的目标人物状态进行实时、全面的分析。
 
-适用于课堂行为分析、人机交互、驾驶员状态监测、实验数据采集等场景。
+系统支持两种工作模式：
+- 🎞️ **离线视频检测**：批量处理本地视频文件，自动输出结果
+- 📷 **摄像头实时检测**：接入本地摄像头进行持续在线分析
+
+适用于智慧教育、驾驶行为监测、人机交互、心理学研究等多种场景。
+
+---
+
+## 效果演示
+
+| 原始视频 | 处理效果 |
+|:---:|:---:|
+| [▶ demo.mp4](readme_src/demo.mp4) | [▶ demo_show.mp4](readme_src/demo_show.mp4) |
+
+> 💡 **立即体验（windows）**：[点击下载程序包 →](https://drive.google.com/uc?export=download&id=1sH3AfQdfjfLpvcWitlilsO-D0xrYBQbh)，解压后在本地直接运行即可。
 
 ---
 
 ## 功能特性
-- 支持离线视频分析
-- 支持摄像头实时检测
-- 支持人脸检测与关键点定位
-- 支持头部姿态估计
-- 支持视线方向估计
-- 支持七类情绪识别：
-  - Angry
-  - Disgust
-  - Fear
-  - Happy
-  - Sad
-  - Surprise
-  - Neutral
 
-### Case 效果展示
-
-本项目提供以下演示视频，展示了系统的实际运行效果：
-
-- [原始视频 demo.mp4](readme_src/demo.mp4)
-- [处理效果 demo_show.mp4](readme_src/demo_show.mp4)
-
-> **立即尝试🎉**：点击以下链接下载程序包，下载完成后在本地解压运行即可体验本系统：[**点击下载程序包 →**](https://drive.google.com/uc?export=download&id=1sH3AfQdfjfLpvcWitlilsO-D0xrYBQbh)
+- ✅ 人脸检测与面部关键点精准定位
+- ✅ 头部姿态估计（俯仰角 / 偏航角 / 翻滚角）
+- ✅ 视线 / 注视方向估计
+- ✅ 七类基础情绪识别：`Angry` `Disgust` `Fear` `Happy` `Sad` `Surprise` `Neutral`
+- ✅ 离线视频批量处理 + 摄像头实时检测双模式
+- ✅ 可视化结果叠加输出，支持多种视频格式
+- ✅ 命令行参数灵活配置，易于集成与部署
 
 ---
 
-## 检测方式
+## 环境要求
 
-### 1. 离线方式
-将待检测视频放入 `input` 文件夹中，程序会自动读取并完成分析，输出结果保存在 `results` 文件夹中。
-
-### 2. 摄像头实时方式
-程序支持调用本地摄像头进行实时检测，可对实时视频流进行连续分析与结果显示。
-
----
-## Parser 参数解析说明
-系统内置了命令行参数解析模块（parser），用于统一管理程序运行时的输入参数和配置选项。用户可通过命令行传入不同参数，灵活控制模型类型、输入源、输出目录、检测器类型及显示方式等内容，从而满足不同实验和应用场景下的运行需求。
-
-### 主要参数包括
-- `--config`：指定配置文件路径
-- `--mode`：指定视线估计模型模式
-- `--face-detector`：指定人脸检测器类型
-- `--device`：指定运行设备，如 CPU 或 GPU
-- `--video`：指定输入视频文件路径
-- `--camera`：指定摄像头参数文件
-- `--output-dir`：指定结果输出目录
-- `--ext`：指定输出视频格式
-- `--no-screen`：关闭屏幕实时显示
-- `--debug`：启用调试模式
-
-通过 parser，系统具备较好的可配置性、可扩展性与工程适配能力，便于后续集成、测试与部署。
+- Python >= 3.8
+- PyTorch >= 1.10
+- CUDA（可选，推荐用于加速推理）
+- OpenCV >= 4.x
 
 ---
 
-## 主要功能模块
-- 人脸检测
-- 面部关键点提取
-- 头部姿态估计
-- 视线/注视方向估计
-- 情绪识别
-- 结果可视化与输出保存
+## 快速开始
+
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/MabelLeeeee/gazeEmotion
+cd gazeEmotion
+```
+
+### 2. 创建虚拟环境（推荐）
+
+```bash
+# 使用 conda
+conda create -n emotion python=3.10
+conda activate emotion
+
+# 或使用 venv
+python -m venv venv
+source venv/bin/activate        # Linux / macOS
+venv\Scripts\activate           # Windows
+```
+
+### 3. 安装依赖
+
+```bash
+pip install -r requirements.txt
+```
+
+> 如需 GPU 加速，请参考 [PyTorch 官网](https://pytorch.org/get-started/locally/) 安装对应 CUDA 版本的 PyTorch。
+
+### 4. 下载预训练模型
+
+将下载好的模型文件放置于 `weights/` 目录下（详见[模型下载](#模型下载)）：
+
+```
+weights/
+├── detection_Resnet50_Final.pth
+└── PrivateTest_model.t7
+```
+
+### 5. 运行
+
+**离线视频检测：**
+
+```bash
+python run.py --video input/demo.mp4 --output-dir results/
+```
+
+**摄像头实时检测：**
+
+```bash
+python run.py --camera 0
+```
+
+**使用 GPU 加速：**
+
+```bash
+python run.py --video input/demo.mp4 --device cuda --output-dir results/
+```
+
+---
+
+## 模型下载
+
+运行本系统前，请下载以下预训练模型并放置于 `weights/` 目录：
+
+| 模型文件 | 大小 | 预训练数据集 | 下载链接 |
+|:---:|:---:|:---:|:---:|
+| `detection_Resnet50_Final.pth` | 109M | WIDER Face | [下载](https://huggingface.co/nlightcho/gfpgan_v14/resolve/main/detection_Resnet50_Final.pth) |
+| `PrivateTest_model.t7` | 77M | 300W (300 Faces In-The-Wild) | [下载](https://drive.google.com/uc?export=download&id=1Oy_9YmpkSKX1Q8jkOhJbz3Mc7qjyISzU) |
 
 ---
 
 ## 使用说明
 
 ### 离线视频检测
-1. 将视频文件放入 `input/`
-2. 运行程序
-3. 在 `results/` 中查看输出结果
+
+1. 将待检测视频文件放入 `input/` 目录
+2. 执行以下命令启动分析：
+
+```bash
+python run.py --video input/<your_video.mp4> --output-dir results/
+```
+
+3. 检测完成后，在 `results/` 目录查看输出结果
 
 ### 摄像头实时检测
-1. 确保本地摄像头可正常使用
-2. 启用摄像头模式
-3. 运行程序进行实时检测
+
+1. 确认本地摄像头设备工作正常
+2. 执行以下命令启动实时检测：
+
+```bash
+python run.py --camera 0
+```
+
+3. 程序将自动调用摄像头并在窗口中实时显示分析结果，按 `Q` 退出
 
 ---
 
-## 适用场景
-- 智慧教育
-- 注意力分析
-- 驾驶行为监测
-- 人机交互
-- 情绪计算研究
-- 视频行为分析
+## 参数说明
+
+系统支持通过命令行参数灵活配置运行选项：
+
+| 参数 | 说明 | 示例 |
+|:---|:---|:---|
+| `--config` | 指定配置文件路径 | `--config configs/default.yaml` |
+| `--mode` | 视线估计模型模式 | `--mode L2CS` |
+| `--face-detector` | 人脸检测器类型 | `--face-detector retinaface` |
+| `--device` | 运行设备 | `--device cuda` / `--device cpu` |
+| `--video` | 输入视频文件路径 | `--video input/demo.mp4` |
+| `--camera` | 摄像头设备索引 | `--camera 0` |
+| `--output-dir` | 结果输出目录 | `--output-dir results/` |
+| `--ext` | 输出视频格式 | `--ext mp4` |
+| `--no-screen` | 关闭屏幕实时显示 | `--no-screen` |
+| `--debug` | 启用调试模式 | `--debug` |
+
+---
+
+## 项目结构
+
+```
+gazeEmotion/                                  # 项目根目录
+├─ .gitignore                                 # Git 忽略规则
+├─ README.md                                  # 当前项目说明文档
+├─ readme_old.md                              # 旧版 README 备份
+├─ requirements.txt                           # Python 依赖列表
+├─ run.py                                     # 主入口脚本（启动离线/实时检测）
+├─ assets/                                    # 演示与文档素材
+│  ├─ demo.mp4                                # 示例原始视频
+│  └─ gaze_emotion.svg                         # 项目相关示意图标
+├─ data/                                      # 配置与相机参数数据
+│  ├─ calib/                                  # 相机标定参数
+│  │  └─ sample_params.yaml                   # 示例相机参数文件
+│  ├─ configs/                                # 不同 gaze 模式配置
+│  │  ├─ eth-xgaze.yaml                       # ETH-XGaze 配置
+│  │  ├─ mpiifacegaze.yaml                    # MPIIFaceGaze 配置
+│  │  └─ mpiigaze.yaml                        # MPIIGaze 配置
+│  └─ normalized_camera_params/               # 归一化相机参数
+│     ├─ eth-xgaze.yaml                       # ETH-XGaze 归一化参数
+│     ├─ mpiifacegaze.yaml                    # MPIIFaceGaze 归一化参数
+│     └─ mpiigaze.yaml                        # MPIIGaze 归一化参数
+├─ models/                                    # 模型定义代码
+│  ├─ __init__.py                             # 模型包初始化
+│  ├─ vgg.py                                  # VGG 情绪识别模型定义
+│  └─ __pycache__/                            # Python 编译缓存（可忽略）
+├─ readme_src/                                # README 展示资源
+│  ├─ demo.mp4                                # README 用原始演示视频
+│  └─ demo_show.mp4                           # README 用处理后演示视频
+├─ results/                                   # 推理输出目录
+│  ├─ camera/                                 # 摄像头实时模式输出
+│  └─ video/                                  # 离线视频模式输出
+├─ src/                                       # 核心业务代码
+│  ├─ __init__.py                             # src 包初始化
+│  ├─ creat_tf.py                             # 数据预处理/transform 构建
+│  ├─ demo.py                                 # 推理流程与可视化主逻辑
+│  ├─ gaze_estimator.py                       # 视线估计与情绪识别核心
+│  ├─ utils.py                                # 工具函数（下载/路径/参数等）
+│  ├─ head_pose_estimation/                   # 头姿估计子模块
+│  │  ├─ __init__.py                          # 子模块初始化
+│  │  ├─ face_landmark_estimator.py           # 人脸关键点估计
+│  │  ├─ head_pose_normalizer.py              # 头姿归一化处理
+│  │  └─ __pycache__/                         # Python 编译缓存（可忽略）
+│  └─ __pycache__/                            # Python 编译缓存（可忽略）
+├─ weights/                                   # 本地模型权重
+│  └─ PrivateTest_model.t7                    # 情绪识别模型权重
+└─ .idea/                                     # PyCharm 工程配置（IDE 文件）
+   ├─ .gitignore                              # IDE 目录的忽略规则
+   ├─ gazeEmotion.iml                         # PyCharm 模块配置
+   ├─ misc.xml                                # PyCharm 基础配置
+   ├─ modules.xml                             # PyCharm 模块列表
+   ├─ vcs.xml                                 # 版本控制配置
+   ├─ workspace.xml                           # 本地工作区配置（个人）
+   └─ inspectionProfiles/                     # 代码检查配置
+      ├─ profiles_settings.xml                # 检查配置设置
+      └─ Project_Default.xml                  # 默认检查规则
+```
+
+---
+
+## 应用场景
+
+| 场景 | 描述 |
+|:---|:---|
+| 🎓 智慧教育 | 课堂专注度分析、学生情绪状态感知 |
+| 🚗 驾驶监测 | 驾驶员视线方向与疲劳状态检测 |
+| 🤖 人机交互 | 用户情绪与注意力实时反馈 |
+| 🧠 心理学研究 | 面部行为数据采集与情绪计算 |
+| 📹 视频分析 | 目标人物行为辅助理解与标注 |
+
+---
+
+## 扩展计划
+
+- [ ] 支持多人同时追踪与分析
+- [ ] 增加注意力评分与统计报告导出
+- [ ] 接入数据库，支持历史数据管理
+- [ ] 提供 Web UI 可视化操作界面
+- [ ] 支持更多情绪类别与细粒度表情识别
+- [ ] 提供 Docker 一键部署支持
 
 ---
 
 ## 项目说明
-本项目可根据实际需求进一步扩展，如接入更多情绪类别、增加行为识别功能、对接数据库或可视化平台等。
+
+项目的详细说明可参考[项目说明](readme_old.md)
+
 
 ---
 
-# 视频情绪检测与视线分析系统说明文档
+## License
 
-## 1. 项目概述
-视频情绪检测与视线分析系统是一套基于计算机视觉与深度学习技术开发的智能视频分析软件。该系统面向视频场景中的人员行为感知需求，能够对目标对象进行人脸检测、情绪识别、视线方向估计以及头部姿态分析。
+本项目基于 [MIT License](LICENSE) 开源发布。
 
-本系统支持离线视频分析与摄像头实时检测两种工作模式，兼顾实验研究、教学展示以及工程应用等多种场景需求，具有较强的实用性与扩展性。
-
----
-
-## 2. 建设目标
-本软件旨在实现对视频中人物状态的自动化识别与分析，通过对面部信息、头部姿态和视线方向等特征的综合处理，辅助完成情绪感知、注意力判断和行为分析等任务，为智慧教育、人机交互、驾驶状态监测等应用提供技术支撑。
-
----
-
-## 3. 软件主要功能
-
-### 3.1 人脸检测与关键点定位
-系统可自动检测视频画面中的人脸区域，并提取面部关键特征点，为后续头部姿态估计、视线分析和情绪识别提供基础数据支持。
-
-### 3.2 头部姿态估计
-系统能够对目标人脸的头部姿态进行估计，获取人物面部朝向和旋转状态信息，从而辅助分析当前注视状态和行为特征。
-
-### 3.3 视线方向估计
-系统可根据人脸图像信息对目标对象的视线方向进行估计，用于判断其注视趋势与注意力方向。该功能可广泛应用于课堂注意力分析、人机交互反馈及驾驶员监测等场景。
-
-### 3.4 情绪识别
-系统支持对人脸表情进行识别，当前可识别以下七类基础情绪：
-
-- 愤怒（Angry）
-- 厌恶（Disgust）
-- 恐惧（Fear）
-- 高兴（Happy）
-- 悲伤（Sad）
-- 惊讶（Surprise）
-- 中性（Neutral）
-
-### 3.5 检测结果输出
-系统支持对检测结果进行可视化展示，并输出处理后的视频结果或相关结果文件，便于实验记录、数据留存和后续分析。
-
----
-
-## 4. 软件工作模式
-
-### 4.1 离线视频检测模式
-离线模式下，用户将待分析视频放置于 `input` 文件夹内，系统自动读取视频文件并完成分析处理，最终将检测结果输出至 `results` 文件夹。
-
-该模式适用于历史视频数据分析、实验样本批量处理以及项目成果归档等场景。
-
-### 4.2 摄像头实时检测模式
-实时模式下，系统通过调用本地摄像头获取视频流，并对实时画面进行持续分析和结果显示。
-
-该模式适用于现场演示、实时监测、人机交互实验和在线行为识别等场景。
-
----
-
-## 5. 软件处理流程
-系统整体处理流程如下：
-
-1. 获取输入视频源（离线视频或摄像头视频流）
-2. 对视频画面进行人脸检测
-3. 提取面部关键点信息
-4. 估计头部姿态与视线方向
-5. 对人脸表情进行情绪识别
-6. 将分析结果进行可视化叠加并输出保存
-
-该流程实现了从图像采集到行为感知结果输出的完整闭环。
-
----
-
-## 6. 软件特点
-
-### 6.1 双模式支持
-同时支持离线视频分析与摄像头实时检测，能够满足不同使用环境下的应用需求。
-
-### 6.2 多功能集成
-系统集成了人脸检测、关键点定位、头部姿态分析、视线估计和情绪识别等多项功能，实现对人物状态的综合分析。
-
-### 6.3 良好的工程适配性
-系统具备清晰的输入输出结构，便于部署、测试、维护和二次开发。
-
-### 6.4 较强的扩展能力
-后续可结合实际业务需求，进一步拓展更多行为识别类别、数据统计模块、结果可视化平台以及数据库管理功能。
-
----
-
-## 7. 应用场景
-本软件可应用于以下领域：
-
-- 智慧教育中的课堂专注度与情绪状态分析
-- 驾驶员监测中的视线方向与行为状态感知
-- 心理学实验中的面部行为数据采集
-- 人机交互系统中的用户状态识别
-- 视频智能分析中的目标行为辅助判断
-
----
-
-## 8. 运行与使用说明
-
-### 8.1 离线方式
-- 将待检测视频放入 `input` 文件夹
-- 启动程序0709.py，配置configuration完成后运行进行分析
-- 在 `results` 文件夹查看输出结果
-
-### 8.2 摄像头实时方式
-- 确保设备摄像头工作正常
-- 启用摄像头检测模式
-- 启动程序后进行实时分析与结果展示
-
----
-
-## 9. 总结
-视频情绪检测与视线分析系统通过融合计算机视觉与深度学习技术，实现了对人物情绪状态、视线方向和头部姿态的综合分析。系统具备离线处理与实时检测双重能力，能够满足科研、教学、展示及实际应用等多类场景需求，具有较好的应用价值与推广前景。
