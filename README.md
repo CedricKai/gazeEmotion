@@ -26,6 +26,15 @@
   - Surprise
   - Neutral
 
+### Case 效果展示
+
+本项目提供以下演示视频，展示了系统的实际运行效果：
+
+- [原始视频 demo.mp4](readme_src/demo.mp4)
+- [处理效果 demo_show.mp4](readme_src/demo_show.mp4)
+
+> **立即尝试🎉**：点击以下链接下载程序包，下载完成后在本地解压运行即可体验本系统：[**点击下载程序包 →**](https://drive.google.com/uc?export=download&id=1sH3AfQdfjfLpvcWitlilsO-D0xrYBQbh)
+
 ---
 
 ## 检测方式

@@ -2,8 +2,9 @@ __pycache__/
 *.pyc
 .idea/
 .vscode/
-*.pth
+# *.pth
 *.t7
 *.mat
-*.mp4
+# *.mp4
 *.log
+video_to_gif.py
